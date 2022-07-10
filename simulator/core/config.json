@@ -1,3 +1,6 @@
 {
-    "SECRET_KEY": "key"
+    "SECRET_KEY": "key",
+    "EMAIL_HOST": "HOST",
+    "EMAIL_HOST_USER": "host",
+    "EMAIL_HOST_PASSWORD": "password"
 }
