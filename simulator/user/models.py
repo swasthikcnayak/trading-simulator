@@ -44,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
   #  REQUIRED_FIELDS = ['region','phone_number']
     REQUIRED_FIELDS: []
+    
     objects = CustomUserManager()
 
     def has_module_perms(self, app_label):

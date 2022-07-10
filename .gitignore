@@ -1,5 +1,4 @@
 pyenv
-
 *.log
 *.pot
 *.pyc
@@ -136,5 +135,3 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-
-config.json
