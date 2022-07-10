@@ -1,6 +1,6 @@
-import imp
-from operator import mod
-from queue import Empty
+from distutils.command.upload import upload
+from email.policy import default
+from PIL import Image
 from time import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUserManager
@@ -34,16 +34,11 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True,null=False,blank=False)
-    #region = models.CharField(unique=True,null=False,blank=False,max_length=3)
-    #phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    #phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=False,null=False) 
     is_active = models.BooleanField(default = True)
     date_joined = models.DateTimeField(default=timezone.now,null=False,blank=False)
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-  #  REQUIRED_FIELDS = ['region','phone_number']
-    REQUIRED_FIELDS: []
     
     objects = CustomUserManager()
 
@@ -53,3 +48,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return self.email
 
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    image = models.ImageField(default='default.png',upload_to='profile_pics/%Y/%m/')
+    first_name = models.CharField(max_length=50, default=None, blank=True, null=True)
+    last_name = models.CharField(max_length=30, default=None, blank=True, null=True)
+    wallet = models.BigIntegerField(default=100000)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        img_width, img_height = img.size
+
+        output_size = (500, 500)
+        box = ((img_width - min(img.size)) // 2, (img_height - min(img.size)) //
+               2, (img_width + min(img.size)) // 2, (img_height + min(img.size)) // 2)
+        img = img.crop(box)
+        img.thumbnail(output_size)
+        img.save(self.image.path)

@@ -1,18 +1,13 @@
-from re import U
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
-from .models import User
-
-
-class CustomUserCreationForm(UserCreationForm):
-
-    class Meta:
-        model = User
-        fields = ('email',)
+from django import forms
+from .models import Profile
 
 
-class CustomUserChangeForm(UserChangeForm):
+class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
-        model = User
-        fields = ('email',)
+        model = Profile
+        fields = ['first_name','last_name','image']
+        labels = {
+            'image': 'Profile picture'
+        }

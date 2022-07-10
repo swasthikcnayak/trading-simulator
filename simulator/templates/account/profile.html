@@ -1,0 +1,34 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% load crispy_forms_filters %}
+
+{% block head_title %}{% trans "Profile" %}{% endblock %}
+
+{% block content %}
+
+  <div class="text-center">
+    <h1>{% trans "Profile update" %}</h1>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form class="login" method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-grid">
+              <button class="primaryAction mt-3 btn btn-dark" type="submit">{% trans "Submit" %}</button><br>
+            </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+<div class="text-center">
+<h2>First Name : {{ profile.first_name }} </h2>
+<h2>Last Name : {{ profile.last_name }} </h2>
+  <h2>Wallet Balance : {{ profile.wallet }} </h2>
+</div>
+
+{% endblock %}
