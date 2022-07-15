@@ -1,0 +1,32 @@
+{% extends 'account/base.html' %}
+{% load static %}
+ {% block content %}
+<div class="container">
+  <h1>Stock searcher</h1>
+
+  <p>Search for stocks</p>
+  <form action="" method="GET" autocomplete="off">
+    <label for="stock-searcher"> Search stocks : </label>
+   <div class="autocomplete" style="width:300px;">
+    <input id="stockinput" type="text" name="stockinput" placeholder="Stocks">
+  </div>
+    <br />
+    <input class="btn btn-primary" type="submit" value="Submit" />
+  </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript' src="{% static 'js/autocomplete.js' %}"></script>
+<script type='text/javascript' src="{% static 'js/querySearch.js' %}"></script>
+
+<script>
+    var stocks = []
+    const element = document.getElementById("stockinput");
+    element.addEventListener('input',(event)=>{
+       querySearch().then(response =>{
+        stocks = response;
+       }).then(()=>{autocomplete(element, stocks)});
+    });
+</script>
+{% endblock%}
