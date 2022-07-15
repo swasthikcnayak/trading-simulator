@@ -11,7 +11,7 @@ SECRET_KEY = config.get('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -28,8 +28,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-'crispy_forms',
+    'crispy_forms',
+    'django_celery_results',
+    'django_celery_beat',
+    'channels',
+
     'user',
+    'stocks',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +62,10 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                  'django.template.context_processors.request',
             ],
+
+            'libraries':{
+                'data_display_filter': 'core.templatetags.data_display_filter'
+            }
         },
     },
 ]
@@ -68,6 +77,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
+
 
 DATABASES = {
     'default': {
@@ -94,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -144,3 +155,21 @@ LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELRY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND' : 'channels_redis.core.RedisChannelLayer',
+        'CONFIG' : {
+            "hosts" : [("127.0.0.1",6379)],
+        },
+    },
+}

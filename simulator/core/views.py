@@ -1,5 +1,4 @@
+from django.shortcuts import render
 
-
-
-def index(request):
-    pass
+def home(request):
+      return render(request,'dashboard/home.html')

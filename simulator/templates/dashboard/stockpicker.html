@@ -1,0 +1,27 @@
+{% extends 'account/base.html' %}
+ {% block content %}
+<div class="container">
+  <h1>Stock picker</h1>
+
+  <p>Select the stocks to track</p>
+  <form action="/stocks/stockdisplay" method="GET">
+    <label for="stock-picker"> Select stocks : </label>
+    <select
+      class="form-select form-select-lg mb-3"
+      multiple
+      aria-label="multiple select example"
+      name = "stockpicker"
+    >
+      {% for stock in stocks %}
+      <option value="{{ stock }}">{{stock}}</option>
+      {% endfor %}
+    </select>
+    <br />
+    <input class="btn btn-primary" type="submit" value="Submit" />
+  </form>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock%}
