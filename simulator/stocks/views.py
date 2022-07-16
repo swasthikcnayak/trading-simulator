@@ -5,6 +5,7 @@ import queue
 from threading import Thread
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .externalservices import finhub
 
 def stock_picker(request):
     stock_picker = tickers_nifty50()
@@ -35,8 +36,9 @@ def stock_dispay(request):
 @api_view(["GET"])
 def show_stock_suggestion_on_search(request):
     if request.method == "GET":
-        data = ['hi','hello','brother','bro']
-       #MAKE API CALL AND GET THE SUGGESTION
+        data = request.query_params.get('data')
+        data = finhub.lookup_stocks(data)
+        data = data['result']
         return Response(data)
 
 def search_stock(request):

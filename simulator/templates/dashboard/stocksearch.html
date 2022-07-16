@@ -9,6 +9,7 @@
     <label for="stock-searcher"> Search stocks : </label>
    <div class="autocomplete" style="width:300px;">
     <input id="stockinput" type="text" name="stockinput" placeholder="Stocks">
+    <input type="button" onclick="searchFunction()" value = "Search"/>
   </div>
     <br />
     <input class="btn btn-primary" type="submit" value="Submit" />
@@ -23,10 +24,13 @@
 <script>
     var stocks = []
     const element = document.getElementById("stockinput");
-    element.addEventListener('input',(event)=>{
-       querySearch().then(response =>{
-        stocks = response;
+
+    function searchFunction(){
+    var data = element.value;
+       querySearch(data).then(response =>{
+        console.log(response);
+        stocks = response.map(o=>(o.description+"("+o.displaySymbol+")"));
        }).then(()=>{autocomplete(element, stocks)});
-    });
+      }
 </script>
 {% endblock%}
