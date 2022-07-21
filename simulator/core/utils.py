@@ -2,6 +2,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Callable, Coroutine, List
 import aiohttp
 import asyncio
+import plotly.graph_objects as go
+from plotly.offline import plot
+import datetime
+
 
 def buildContext(**kwargs):
     return kwargs
@@ -52,3 +56,18 @@ def multi_threading_runnder(function,data_list):
 
 
 #https://creativedata.stream/multi-threading-api-requests-in-python/
+
+def create_candle_stick(data):
+        figure = go.Figure(
+            data = [
+                    go.Candlestick(
+                    x =   [datetime.datetime.fromtimestamp( epoch_time )   for epoch_time in data['t']],
+                      high = data['h'],
+                      low = data['l'],
+                      open = data['o'],
+                      close = data['c'],
+                    )
+                  ]
+        )
+        candlestick_div = plot(figure, output_type='div')
+        return candlestick_div

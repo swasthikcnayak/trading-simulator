@@ -4,5 +4,6 @@
     "EMAIL_HOST_USER": "",
     "EMAIL_HOST_PASSWORD": "",
     "FINNHUB_API_KEY" : "",
-    "FINHUB_SANDBOX_KEY" : ""
+    "FINHUB_SANDBOX_KEY" : "",
+    "ALPHA_API_KEY" : ""
 }

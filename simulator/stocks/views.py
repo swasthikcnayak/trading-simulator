@@ -5,7 +5,11 @@ import queue
 from threading import Thread
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from core.utils import create_candle_stick
 from .externalservices import finhub
+from core import settings
+
 
 def stock_picker(request):
     stock_picker = tickers_nifty50()
@@ -43,3 +47,19 @@ def show_stock_suggestion_on_search(request):
 
 def search_stock(request):
     return render(request,'dashboard/stocksearch.html')
+
+
+def candle_stick_plot_view(request,stock):
+    ts_df_short = finhub.get_candle_stick_data(stock,1,30)
+    ts_df_large = finhub.get_candle_stick_data(stock,"D",365)
+
+    candle_stick_1 = create_candle_stick(ts_df_short)
+    candle_stick_2 = create_candle_stick(ts_df_large)
+
+    context = {
+        'stock': stock,
+        'candlestick1': candle_stick_1,
+        'candlestick3' : candle_stick_2
+    }
+
+    return render(request,'dashboard/candleStick.html',context=context)

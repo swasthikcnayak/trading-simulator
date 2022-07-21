@@ -175,3 +175,4 @@ CHANNEL_LAYERS = {
 }
 
 FINNHUB_API_KEY = config.get("FINNHUB_API_KEY")
+ALPHA_API_KEY = config.get("ALPHA_API_KEY")
